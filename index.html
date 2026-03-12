@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Weather in Nairobi, Kenya</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #00c6ff, #0072ff);
+            color: white;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .weather-info {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="weather-info">
+        <h1>Current Weather in Nairobi, Kenya</h1>
+        <div id="weather-details">
+            <p>Loading weather data...</p>
+        </div>
+    </div>
+    <script>
+        async function fetchWeather() {
+            const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-1.286389&longitude=36.817223&current_weather=true');
+            const data = await response.json();
+            const weather = data.current_weather;
+            document.getElementById('weather-details').innerHTML = `
+                <h2>${weather.temperature} °C</h2>
+                <p>Humidity: ${weather.humidity} %</p>
+                <p>Wind Speed: ${weather.windspeed} km/h</p>
+                <p>Pressure: ${weather.pressure} hPa</p>
+                <img src="https://www.weatherbit.io/static/img/icons/${weather.weathercode}.png" alt="Weather Icon">
+            `;
+        }
+        fetchWeather();
+    </script>
+</body>
+</html>
